@@ -1,1 +1,1 @@
-# FYRAflow
+# FYRAflow: Fission Yeast Re-sequencing Analysis workflow
