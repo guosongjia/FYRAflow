@@ -7,14 +7,17 @@ The raw NGS reads data will be analyzed and trimmed using `fastp`. Then trimmed 
 ## Quick start
 ### Installation
 #### Clone the repository:
-`git clone`\
+`git clone https://github.com/guosongjia/FYRAflow.git`
 #### Create the environment:
 `conda env create -n fyraflow -f env.ymal`
 #### Activate the environment:
 `conda activate fyraflow`
 ### Set up configuration file
-Please modify the 
+#### Customize the workflow based on your need in `config/main_config.yaml` 
+
+### Run FYRAflow:
 ```
-python main.py
+python main.py -h 
+
 ```
 
