@@ -1,0 +1,21 @@
+# Please check the parameters, and adjust them according to your circumstance
+
+# ================== Shared parameters for some or all of the sub-workflows ==================
+
+## Project Name
+PROJECT: test
+
+## Fission yeast species of re-sequencing analysis
+SPECIES: S_pombe # "S_pombe" or "S_octosporus" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+
+## Input the path of fastq files
+READSPATH: example/raw_reads
+
+## Input the working directory
+WORKPATH: example
+
+## Input the sample list file
+SAMPLE: example/sample.list
+
+## Input the final output directory
+OUTPUTPATH: example/final
