@@ -6,7 +6,7 @@
 PROJECT: test
 
 ## Fission yeast species of re-sequencing analysis
-SPECIES: S_pombe # "S_pombe" or "S_octosporus" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+SPECIES: S_octosporus # "S_pombe" or "S_octosporus" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
 
 ## Input the path of fastq files
 READSPATH: example/raw_reads

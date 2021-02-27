@@ -6,7 +6,7 @@ import argparse
 
 # argparser setting
 parser = argparse.ArgumentParser(description='This is the main python script for Fission Yeast Re-sequencing Analysis workflow.')
-parser.add_argument("-s","-step",required=True,type=str,dest='step',help='Input the step the workflow: qualityControl, kmerFiltering, readsMapping, duplicatesMark')
+parser.add_argument("-s","-step",required=True,type=str,dest='step',help='Input the step the workflow: qualityControl, kmerFiltering, readsMapping_duplicatesMark, gvcf_calling')
 parser.add_argument("-l","-log",required=True,type=str,dest='log',help='Input the path to save the running time log files.')
 args = parser.parse_args()
 if args.step:
@@ -64,18 +64,31 @@ if Runstep == "kmerFiltering":
     print("KAT kmer statistic and filtering is done!")
 
 # Do readsMapping when meeded
-if Runstep == "readsMapping":
+if Runstep == "readsMapping_duplicatesMark":
     file_log_time = open(str(TimeLog) + "03_readsMapping_running_time.txt", "a+")
     file_log_time.write("\nProject name: " + project + "\n")
-    file_log_time.write("Running step: reads mapping and bam sorting." + "\n")
+    file_log_time.write("Running step: reads mapping, bam sorting and duplicates reads mark." + "\n")
     file_log_time.write("Start time: " + time.ctime() + "\n")
     print("Let's start reads mapping and sorting!")
     start_time = time.time()
-    os.system("snakemake -s workflow/readsMapping.smk --cores 32")
+    os.system("snakemake -s workflow/readsMapping_duplicateMark.smk --cores 32")
     end_time = time.time()
     file_log_time.write("Time of running reads mapping and bam sorting: " + spend_time(start_time, end_time) + "\n")
     file_log_time.close()
     print("BWA MEM reads mapping, samtools sorting and gatk markduplicates is done!")
 
+# Do gvcf file calling when needed
+if Runstep == "gvcf_calling":
+    file_log_time = open(str(TimeLog) + "04_gvcfCalling_running_time.txt", "a+")
+    file_log_time.write("\nProject name: " + project + "\n")
+    file_log_time.write("Running step: gvcf file calling." + "\n")
+    file_log_time.write("Start time: " + time.ctime() + "\n")
+    print("Let's start gvcf file calling!")
+    start_time = time.time()
+    os.system("snakemake -s workflow/gvcfCalling.smk --cores 54")
+    end_time = time.time()
+    file_log_time.write("Time of running gvcf file calling: " + spend_time(start_time, end_time) + "\n")
+    file_log_time.close()
+    print("gatk haplotypecaller calling is done!")
 
 
