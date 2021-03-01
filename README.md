@@ -2,9 +2,17 @@
 - - - 
 ## Description
 ### Guo-Song Jia@Li-Lin Du's lab
-FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. \
-The raw NGS reads data will be analyzed and trimmed using `fastp`. Then trimmed reads will be filtered based on kmer statistic and the low frequency kmer reads will be removed using `kat`.
-## Quick start
+FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. 
+## Full List of Tools used in this pipeline
+- `Fastp` 
+- `Kat`
+- `BWA`
+- `Samtools`
+- `Picard Tools` (included in GATK4 packages)
+- `GATK4`
+- `Vcftools`
+- `R` (Dependency for some GATK steps)
+## Quick Start
 ### Installation
 #### Clone the repository:
 `git clone https://github.com/guosongjia/FYRAflow.git`
