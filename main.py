@@ -6,7 +6,7 @@ import argparse
 
 # argparser setting
 parser = argparse.ArgumentParser(description='This is the main python script for Fission Yeast Re-sequencing Analysis workflow.')
-parser.add_argument("-s","-step",required=True,type=str,dest='step',help='Input the step the workflow: qualityControl, kmerFiltering, readsMapping_duplicatesMark, gvcf_calling')
+parser.add_argument("-s","-step",required=True,type=str,dest='step',help='Input the step the workflow: qualityControl, kmerFiltering, readsMapping_duplicatesMark, gvcf_calling, jointCallingFiltering')
 parser.add_argument("-l","-log",required=True,type=str,dest='log',help='Input the path to save the running time log files.')
 args = parser.parse_args()
 if args.step:
@@ -48,7 +48,6 @@ if Runstep == "qualityControl":
     print("Quality control is done!")
     os._exit(0)
 
-
 # Do kmerFiltering when meeded
 if Runstep == "kmerFiltering":
     file_log_time = open(str(TimeLog) + "02_kmerFiltering_running_time.txt", "a+")
@@ -78,6 +77,7 @@ if Runstep == "readsMapping_duplicatesMark":
     print("BWA MEM reads mapping, samtools sorting and gatk markduplicates is done!")
 
 # Do gvcf file calling when needed
+# This step is time comsuming!
 if Runstep == "gvcf_calling":
     file_log_time = open(str(TimeLog) + "04_gvcfCalling_running_time.txt", "a+")
     file_log_time.write("\nProject name: " + project + "\n")
@@ -90,5 +90,19 @@ if Runstep == "gvcf_calling":
     file_log_time.write("Time of running gvcf file calling: " + spend_time(start_time, end_time) + "\n")
     file_log_time.close()
     print("gatk haplotypecaller calling is done!")
+
+# Do joint calling and variant filtering when needed
+if Runstep == "jointCallingFiltering":
+    file_log_time = open(str(TimeLog) + "05_jointCallingFiltering_running_time.txt", "a+")
+    file_log_time.write("\nProject name: " + project + "\n")
+    file_log_time.write("Running step: joint calling and variant filtering." + "\n")
+    file_log_time.write("Start time: " + time.ctime() + "\n")
+    print("Let's start joint calling and variant filtering!")
+    start_time = time.time()
+    os.system("snakemake -s workflow/gvcfCalling.smk --cores 54")
+    end_time = time.time()
+    file_log_time.write("Time of running joint calling and filtering: " + spend_time(start_time, end_time) + "\n")
+    file_log_time.close()
+    print("Joint calling and variant filtering is done!")
 
 

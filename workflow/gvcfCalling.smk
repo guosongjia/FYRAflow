@@ -16,6 +16,7 @@ rule all:
         expand(working_dir + "/04_variantCalling/{sample}.raw.snps.indels.g.vcf",sample=sampleList),
         expand(working_dir + "/04_variantCalling/{sample}.raw.snps.indels.g.vcf.idx",sample=sampleList)
 
+# Do variant calling under HaplotypeCaller "-ERC GVCF" mode to genreate gvcf files per sample. 
 rule generate_gvcf:
     input:
         mapped_sorted_rmdup_addGroup_bam_file = working_dir + "/03_readsMapping/{sample}.kat_filtered.bwa.sorted.rmdup.RGadded.bam"
@@ -25,5 +26,3 @@ rule generate_gvcf:
     threads: 48
     run:
         shell("gatk HaplotypeCaller --java-options '-Xmx128G' --native-pair-hmm-threads {threads}  -I {input.mapped_sorted_rmdup_addGroup_bam_file} -R {species_index} -ERC GVCF -O {output.gvcf_file}")
-
-# 

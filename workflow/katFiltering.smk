@@ -19,8 +19,9 @@ rule all:
         expand(working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.png",sample=sampleList),
         expand(working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.filter.kmer-{prefix}",sample=sampleList,prefix=PREFIX),
         expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R1.fq.gz",sample=sampleList),
-        expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R2.fq.gz",sample=sampleList)
+        expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R2.fq.gz",sample=sampleList)\
 
+# Do decompression to fastq files, because "kat filter seq" need decompressed fastq files as input
 rule fq_gunzip:
     input: 
         fastp_read1 = working_dir + "/01_QC_fastp/trimmed/{sample}_fastp_1.fq.gz",
@@ -32,7 +33,7 @@ rule fq_gunzip:
         shell("gunzip -dc {input.fastp_read1} > {output.fastp_read1_unzip}")
         shell("gunzip -dc {input.fastp_read2} > {output.fastp_read2_unzip}")
 
-
+# Do kat hist statistic, generate kmer analysis results
 rule kat_hist:
     input: 
         fastp_read1 = working_dir + "/01_QC_fastp/trimmed/{sample}_fastp_1.fq.gz",
@@ -47,7 +48,7 @@ rule kat_hist:
     shell:
         "kat hist -o {output.kat_summary} -t {threads} {input.fastp_read1} {input.fastp_read2} > {log} 2>&1"
 
-
+# Do kat filter kmer, generate binary kmer index file with ".kmer-in.jf27" suffrix.
 rule kat_filtering_index:
     input:
         fastp_read1_unzip = intermediate_dir + "/{sample}_fastp_1.fq",
@@ -64,7 +65,7 @@ rule kat_filtering_index:
             lcfactor = int(int(jsonParser['global_maxima']['freq']) * 0.2)
         shell("kat filter kmer -o {params.outdir_index} -t {threads} --low_count {lcfactor} {input.fastp_read1_unzip} {input.fastp_read2_unzip}")
         
-
+# Do kat filter seq, generate filtered fastq files based on binary kmer index 
 rule kat_filtering_seq:
     input:
         fastp_read1_unzip = intermediate_dir + "/{sample}_fastp_1.fq",
@@ -81,6 +82,7 @@ rule kat_filtering_seq:
     run: 
         shell("kat filter seq -o {params.kmer_seq} -T 1 -t {threads} --seq {input.fastp_read1_unzip} --seq2 {input.fastp_read2_unzip} {input.kmer_index} > {log} 2>&1")
 
+# Compress the kmer filtered fastq files
 rule fq_gzip:
     input:
         filtered_fastp_read1 = working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R1.fq",
