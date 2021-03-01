@@ -11,6 +11,7 @@ FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing
 - `Picard Tools` (included in GATK4 packages)
 - `GATK4`
 - `Vcftools`
+- `Whatshap`
 - `R` (Dependency for some GATK steps)
 ## Quick Start
 ### Installation
