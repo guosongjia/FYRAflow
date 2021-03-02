@@ -2,7 +2,8 @@
 - - - 
 ## Description
 ### Guo-Song Jia@Li-Lin Du's lab
-FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. 
+FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. \
+Over view of the workflow:\
 ![image](https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart.png)
 ## Full List of Tools used in this pipeline
 - `Fastp` 
