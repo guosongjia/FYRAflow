@@ -20,7 +20,7 @@ Over view of the workflow:\
 #### Clone the repository:
 `git clone https://github.com/guosongjia/FYRAflow.git`
 #### Create the environment:
-`conda env create -n fyraflow -f env.ymal`
+`conda env create -n fyraflow -f env.yaml`
 #### Activate the environment:
 `conda activate fyraflow`
 ### Set up configuration file
