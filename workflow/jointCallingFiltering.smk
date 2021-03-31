@@ -18,7 +18,8 @@ rule all:
         working_dir + "/05_jointCalling/SNP_analysis/" + project + ".filtered.snps.vcf",
         working_dir + "/05_jointCalling/INDEL_analysis/" + project + ".filtered.indels.vcf",
         working_dir + "/05_jointCalling/SNP_analysis/" + project + ".filtered.PASS.snps.vcf",
-        working_dir + "/05_jointCalling/INDEL_analysis/" + project + ".filtered.PASS.indels.vcf"
+        working_dir + "/05_jointCalling/INDEL_analysis/" + project + ".filtered.PASS.indels.vcf",
+        working_dir + "/05_jointCalling/SNP_analysis/" + project + ".filtered.PASS.unphased.snps.vcf"
 
 # Obtain gvcf file list for gvcf combine using custom python scripts
 rule get_gvcf_list:
@@ -82,3 +83,12 @@ rule filter_PASS_sites:
     run:
         shell("gatk SelectVariants --exclude-filtered -V {input.filtered_snp_vcf} -O {output.filtered_PASS_snp_vcf}")
         shell("gatk SelectVariants --exclude-filtered -V {input.filtered_indel_vcf} -O {output.filtered_PASS_indel_vcf}")
+
+# Do unphasing to SNP vcf file
+rule unphase_snp_vcf:
+    input:
+        filtered_PASS_snp_vcf = working_dir + "/05_jointCalling/SNP_analysis/" + project + ".filtered.PASS.snps.vcf"
+    output:
+        filtered_PASS_unphased_snp_vcf = working_dir + "/05_jointCalling/SNP_analysis/" + project + ".filtered.PASS.unphased.snps.vcf"
+    run:
+        shell("whatshap unphase {input.filtered_PASS_snp_vcf} > {output.filtered_PASS_unphased_snp_vcf}")
