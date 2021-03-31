@@ -3,19 +3,19 @@
 # ================== Shared parameters for some or all of the sub-workflows ==================
 
 ## Project Name
-PROJECT: test
+PROJECT: 126_octosporus_joint
 
 ## Fission yeast species of re-sequencing analysis
-SPECIES: S_octosporus # "S_pombe" or "S_octosporus" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+SPECIES: S_octosporus_ref # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
 
 ## Input the path of fastq files
-READSPATH: example/raw_reads
+READSPATH: /data/b/resource/Short_Reads/Soctosporus
 
 ## Input the working directory
-WORKPATH: example
+WORKPATH: /data/b/jgs/variant_calling/Soctosporus_ref
 
 ## Input the sample list file
-SAMPLE: example/sample.list
+SAMPLE: /data/b/jgs/variant_calling/Soctosporus_ref/wild_strain_21.3.24
 
 ## Input the final output directory
-OUTPUTPATH: example/final
+OUTPUTPATH: /data/b/jgs/variant_calling/Soctosporus_ref
