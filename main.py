@@ -9,7 +9,7 @@ import argparse
 if len(sys.argv) > 1 and sys.argv[1] == 'variant':
     mode = 'variant'
 elif len(sys.argv) > 1 and sys.argv[1] == 'assemble':
-    mode = 'assemble'
+    mode = 'assembly'
 else:
     sys.stderr.write('This is the main python script for Fission Yeast Re-sequencing Analysis workflow.\n')
     sys.stderr.write('usage: python main.py <mode> --help \n')
@@ -19,6 +19,7 @@ else:
 # 'variant' mode argparser setting
 if mode == 'variant':
     parser = argparse.ArgumentParser(description='fyraflow variant mode options',usage='python main.py variant -s <running step> -l <PATH to store log files>')
+    parser.add_argument('variant')
     parser.add_argument("-s","--step",required=True,type=str,dest='step',help='Input the step the workflow: qualityControl, kmerFiltering, readsMapping_duplicatesMark, gvcf_calling, jointCallingFiltering')
     parser.add_argument("-l","--log",required=True,type=str,dest='log',help='Input the path to save the running time log files.')
     args = parser.parse_args()

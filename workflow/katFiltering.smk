@@ -1,7 +1,7 @@
 import csv
 import json
 
-configfile: "config/main_config.yaml"
+configfile: "config/variant_config.yaml"
 
 input_path = config["READSPATH"]
 working_dir = config["WORKPATH"]

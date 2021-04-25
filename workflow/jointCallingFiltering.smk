@@ -1,6 +1,6 @@
 import csv
 import os
-configfile: "config/main_config.yaml"
+configfile: "config/variant_config.yaml"
 
 project = config["PROJECT"]
 working_dir = config["WORKPATH"]
