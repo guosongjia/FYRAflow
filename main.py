@@ -30,7 +30,9 @@ if mode == 'variant':
 # 'assemble' mode argparser setting
 elif mode == 'assembly':
     parser = argparse.ArgumentParser(description='fyraflow assemble mode options',usage='python main.py assemble -s <running step> -l <PATH to store log files>')
+    parser.add_argument('assembly')
     parser.add_argument("-s","--step",required=True,type=str,dest='step',help='Input the step the workflow: filtering')
+    parser.add_argument()
     args = parser.parse_args()
     if args.step:
         Runstep = str(args.step)
@@ -122,3 +124,7 @@ if mode == 'variant':
         file_log_time.close()
         print("Joint calling and variant filtering is done!")
 
+# "Running fyraflow assembly sub-module"
+# if mode == 'assembly':
+#     if Runstep == "filtering":
+#         file_log_time = open(str(TimeLog) + "05_jointCallingFiltering_running_time.txt", "a+")
