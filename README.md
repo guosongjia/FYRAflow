@@ -3,7 +3,7 @@
 ## Description
 ### Guo-Song Jia@Li-Lin Du's lab
 FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. \
-Over view of the workflow:\
+Overview of the `FYRAflow variant` submodule:\
 <!-- <img scr="https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart_new.jpg" width=300> -->
 ![image](https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart_new.jpg){:height="50%" width="50%"}
 ## Full List of Tools used in this pipeline
@@ -14,6 +14,7 @@ Over view of the workflow:\
 - `Picard Tools` (included in GATK4 packages)
 - `GATK4`
 - `Vcftools`
+- `QUAST`
 - `Whatshap`
 - `R` (Dependency for some GATK steps)
 ## Quick Start
@@ -25,11 +26,12 @@ Over view of the workflow:\
 #### Activate the environment:
 `conda activate fyraflow`
 ### Set up configuration file
-#### Customize the workflow based on your need in `config/main_config.yaml` 
+#### Customize the workflow based on your need in `config/*.yaml`
+#### Using `config/variant_config.yaml` as an example 
 ```
 # Please check the parameters, and adjust them according to your circumstance
 
-# ================== Shared parameters for some or all of the sub-workflows ==================
+# ================== Parameters for fyraflow variant sub-modules ==================
 
 ## Project Name
 PROJECT: test
@@ -52,12 +54,24 @@ OUTPUTPATH: example/
 ### Run FYRAflow:
 ```
 python main.py -h
-optional arguments:
-  -h, --help           show this help message and exit
-  -s STEP, -step STEP  Input the step the workflow: qualityControl, kmerFiltering, readsMapping_duplicatesMark, gvcf_calling
-  -l LOG, -log LOG     Input the path to save the running time log files.
+This is the main python script for Fission Yeast Re-sequencing Analysis workflow.
+usage: python main.py <mode> --help 
+modes: variant, assembly
 
-# Run "qualityControl" step as an example
-python main.py -s qualityControl -l ./ 
+# Run "variant" submodule as an example
+python main.py variant -h
+usage: python main.py variant -s <running step> -l <PATH to store log files>
+
+fyraflow variant mode options
+
+positional arguments:
+  variant
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s STEP, --step STEP  Input the step the workflow: qualityControl,
+                        kmerFiltering, readsMapping_duplicatesMark,
+                        gvcf_calling, jointCallingFiltering
+  -l LOG, --log LOG     Input the path to save the running time log files.
 ```
 
