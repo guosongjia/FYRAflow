@@ -5,7 +5,7 @@ input_path = config["READSPATH"]
 working_dir = config["WORKPATH"]
 species = config["SPECIES"]
 ## Generate reference genome index files
-species_index = "genome/" + species + "/"+ species +".fasta"
+species_index = "genome/" + species + "/" + species + ".fasta"
 
 with open(str(config["SAMPLE"]),'r') as sampleFile:
     reader = csv.reader(sampleFile)
