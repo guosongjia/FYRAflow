@@ -45,12 +45,12 @@ rule generate_contig_windows:
                         output.write(str(contigs) + "\t" + str(i*1000 + 1 ) + "\t" + str((i+1)*1000) + "\n")
                 output.write(str(contigs) + "\t" + str(times*1000+1) + "\t" + str(length) + "\n")
 
-# Generate mapping index file
+# Generate bwa index files and do KAT reads mapping 
 rule bwa_mapping_sorting_indexing:
     input: 
         NGS_raw_contigs = assembly_path + "/{sample}_NGS.contigs.fasta",
-        gziped_filtered_fastp_kat_reads1 = katReads_path + "/{sample}_kat.in.R1.fq.gz",
-        gziped_filtered_fastp_kat_reads2 = katReads_path + "/{sample}_kat.in.R2.fq.gz"
+        gziped_filtered_fastp_kat_reads1 = katReads_path + "/{sample}.in.R1.fq.gz",
+        gziped_filtered_fastp_kat_reads2 = katReads_path + "/{sample}.in.R2.fq.gz"
     output: 
         NGS_raw_contigs_amb = temp(assembly_path + "/{sample}_NGS.contigs.fasta.amb"),
         NGS_raw_contigs_ann = temp(assembly_path + "/{sample}_NGS.contigs.fasta.ann"),
@@ -111,14 +111,14 @@ rule contig_filtering:
             for contig in contigList:
                 contigCoverage = [int(i.split("\t")[1].rstrip()) / median_coverage for i in reader if i.split(":")[0] == contig]
                 contigNumber = int(len(contigCoverage))
-                passedBins = [i for i in contigCoverage if i > 0.1]
+                passedBins = [i for i in contigCoverage if i > 0.3]
                 passedBinsNumber = int(len(passedBins))
-                failedBins = [i for i in contigCoverage if i <= 0.1]
+                failedBins = [i for i in contigCoverage if i <= 0.3]
                 failedBinsNumber = int(len(failedBins))
-                if passedBinsNumber > contigNumber / 2:
+                if passedBinsNumber >= contigNumber / 2:
                     passed.write(str(contig) + "\n")
                     passedContigList.append(contig)
-                elif passedBinsNumber <= contigNumber / 2:
+                elif passedBinsNumber < contigNumber / 2:
                     failed.write(str(contig) + "\n")
             passed.close()
             failed.close()
@@ -137,12 +137,4 @@ rule contig_filtering:
                             pass
                         else:
                             outputFasta.write(lines)
-# Remove bam files and converage files
-rule clear_bam_files:
-    input: 
-        mapped_sorted_bam_file = working_dir + "/01_katReads_filtering/{sample}.kat_filtered.bwa.sorted.bam",
-        mapped_sorted_bam_index_file = working_dir + "/01_katReads_filtering/{sample}.kat_filtered.bwa.sorted.bam.bai",
-        binning_coverage = working_dir + "/01_katReads_filtering/{sample}.bining.coverage.txt"
-    run: 
-        shell("rm {input.mapped_sorted_bam_file} {input.mapped_sorted_bam_index_file} {input.binning_coverage}")
 

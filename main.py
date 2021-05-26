@@ -8,7 +8,7 @@ import argparse
 # Input main functions
 if len(sys.argv) > 1 and sys.argv[1] == 'variant':
     mode = 'variant'
-elif len(sys.argv) > 1 and sys.argv[1] == 'assemble':
+elif len(sys.argv) > 1 and sys.argv[1] == 'assembly':
     mode = 'assembly'
 else:
     sys.stderr.write('This is the main python script for Fission Yeast Re-sequencing Analysis workflow.\n')
@@ -27,15 +27,17 @@ if mode == 'variant':
         Runstep = str(args.step)
     if args.log:
         TimeLog = str(args.log)
-# 'assemble' mode argparser setting
+# 'assembly' mode argparser setting
 elif mode == 'assembly':
     parser = argparse.ArgumentParser(description='fyraflow assemble mode options',usage='python main.py assemble -s <running step> -l <PATH to store log files>')
     parser.add_argument('assembly')
     parser.add_argument("-s","--step",required=True,type=str,dest='step',help='Input the step the workflow: filtering')
-    parser.add_argument()
+    parser.add_argument("-l","--log",required=True,type=str,dest='log',help='Input the path to save the running time log files.')
     args = parser.parse_args()
     if args.step:
         Runstep = str(args.step)
+    if args.log:
+        TimeLog = str(args.log)
 
 # Define running time calculator.
 def spend_time(start_time, end_time):
@@ -124,7 +126,24 @@ if mode == 'variant':
         file_log_time.close()
         print("Joint calling and variant filtering is done!")
 
-# "Running fyraflow assembly sub-module"
-# if mode == 'assembly':
-#     if Runstep == "filtering":
-#         file_log_time = open(str(TimeLog) + "05_jointCallingFiltering_running_time.txt", "a+")
+"Running fyraflow assembly sub-module"
+if mode == 'assembly':
+    # Import global config file from given PATH
+    with open("config/assembly_config.yaml") as yamlFile:
+        config = yaml.safe_load(yamlFile)
+        project = config["PROJECT"]
+        species = config["SPECIES"]
+    # Start FYRAflow on the project
+    print("Start FYRAflow assembly sub-module on project: " + project)
+    if Runstep == "filtering":
+        file_log_time = open(str(TimeLog) + "01_NGScontigFiltering_running_time.txt", "a+")
+        file_log_time.write("\nProject name: " + project + "\n")
+        file_log_time.write("Running step: NGS assembly filtering based on KAT filtered reads mapping." + "\n")
+        file_log_time.write("Start time: " + time.ctime() + "\n")
+        print("Let's start NGS assembly filtering based on KAT filtered reads mapping!")
+        start_time = time.time()
+        os.system("snakemake -s workflow/NGScontig_katReadsFiltering.smk --cores 48")
+        end_time = time.time()
+        file_log_time.write("Time of running NGS assembly filtering based on KAT filtered reads mapping: " + spend_time(start_time, end_time) + "\n")
+        file_log_time.close()
+        print("NGS assembly filtering based on KAT filtered reads mapping is done!")
