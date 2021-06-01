@@ -19,7 +19,12 @@ rule all:
         expand(working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.png",sample=sampleList),
         expand(working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.filter.kmer-{prefix}",sample=sampleList,prefix=PREFIX),
         expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R1.fq.gz",sample=sampleList),
-        expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R2.fq.gz",sample=sampleList)\
+        expand(working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R2.fq.gz",sample=sampleList),
+        expand(working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist_beforeKAT.pdf",sample=sampleList),
+        expand(working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist",sample=sampleList),
+        expand(working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist.dist_analysis.json",sample=sampleList),
+        expand(working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist.png",sample=sampleList),
+        expand(working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist_afterKAT.pdf",sample=sampleList)
 
 # Do decompression to fastq files, because "kat filter seq" need decompressed fastq files as input
 rule fq_gunzip:
@@ -41,12 +46,18 @@ rule kat_hist:
     output: 
         kat_summary = working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist",
         kat_json = working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.dist_analysis.json",
-        kat_fig = working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.png"
+        kat_fig = working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.png",
+        modified_kmer_fig = working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist_beforeKAT.pdf"
     threads: 32
     log:
         working_dir + "/02_kmerStatFiltering_kat/{sample}.kat.hist.log"
-    shell:
-        "kat hist -o {output.kat_summary} -t {threads} {input.fastp_read1} {input.fastp_read2} > {log} 2>&1"
+    run:
+        shell("kat hist -o {output.kat_summary} -t {threads} {input.fastp_read1} {input.fastp_read2} > {log} 2>&1")
+        with open(output.kat_json,'r') as jsonFile:
+            jsonParser = json.load(jsonFile)
+            xmax = int(jsonParser['global_maxima']['freq']) * 3
+            ymax = int(jsonParser['global_maxima']['count']) + 100000
+        shell("Rscript scripts/kat_draw_kat_hist.R {output.kat_summary} beforeKAT {xmax} {ymax}")
 
 # Do kat filter kmer, generate binary kmer index file with ".kmer-in.jf27" suffrix.
 rule kat_filtering_index:
@@ -94,4 +105,21 @@ rule fq_gzip:
         shell("gzip {input.filtered_fastp_read1}")
         shell("gzip {input.filtered_fastp_read2}")
 
-
+# Do kat hist statistic after kat filtering, generate kmer analysis results
+rule kat_hist_again:
+    input: 
+        gziped_filtered_fastp_read1 = working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R1.fq.gz",
+        gziped_filtered_fastp_read2 = working_dir + "/02_kmerStatFiltering_kat/filtered_reads/{sample}.in.R2.fq.gz"
+    output:
+        kat_summary_after = working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist",
+        kat_json_after = working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist.dist_analysis.json",
+        kat_fig_after = working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist.png",
+        modified_kmer_fig_after = working_dir + "/02_kmerStatFiltering_kat/{sample}_afterFiltering.kat.hist_afterKAT.pdf"
+    threads: 32
+    run:
+        shell("kat hist -o {output.kat_summary_after} -t {threads} {input.gziped_filtered_fastp_read1} {input.gziped_filtered_fastp_read2}")
+        with open(output.kat_json_after,'r') as jsonFile:
+            jsonParser = json.load(jsonFile)
+            xmax = int(jsonParser['global_maxima']['freq']) * 3
+            ymax = int(jsonParser['global_maxima']['count']) + 100000
+        shell("Rscript scripts/kat_draw_kat_hist.R {output.kat_summary_after} afterKAT {xmax} {ymax}")
