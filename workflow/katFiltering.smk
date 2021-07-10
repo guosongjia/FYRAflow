@@ -1,3 +1,11 @@
+##############################################################
+#  workflow: katFiltering.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-variant submodule. 
+#               Filter out reads containing low-frequency kmer in FASTP processed fastq files using KAT.
+##############################################################
+
 import csv
 import json
 

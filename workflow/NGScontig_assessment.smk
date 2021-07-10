@@ -1,3 +1,11 @@
+##############################################################
+#  workflow: NGScontig_assessment.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-assembly submodule. 
+#               Do assembly assessment to raw NGS assembly and KAT-filtered NGS assembly.
+##############################################################
+
 import csv
 configfile: "config/assembly_config.yaml"
 

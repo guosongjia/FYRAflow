@@ -1,3 +1,11 @@
+##############################################################
+#  workflow: readsMapping_duplicateMark.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-variant submodule. 
+#               Do NGS reads mapping and duplicate reads mark.
+##############################################################
+
 import csv
 configfile: "config/variant_config.yaml"
 

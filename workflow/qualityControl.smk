@@ -1,3 +1,10 @@
+##############################################################
+#  workflow: qualityControl.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-variant submodule. Do quality control and low-quality reads removing using FASTQ.
+##############################################################
+
 import csv
 configfile: "config/variant_config.yaml"
 

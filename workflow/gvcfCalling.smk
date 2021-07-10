@@ -1,3 +1,10 @@
+##############################################################
+#  workflow: gvcfCalling.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-varaint submodule. Generate gVCF files using GATK HaplotypeCaller
+##############################################################
+
 import csv
 configfile: "config/variant_config.yaml"
 

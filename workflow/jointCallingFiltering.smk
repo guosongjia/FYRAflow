@@ -1,3 +1,10 @@
+##############################################################
+#  workflow: jointCallingFiltering.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-varaint submodule. Do GATK joint calling and variant filtering.
+##############################################################
+
 import csv
 import os
 configfile: "config/variant_config.yaml"

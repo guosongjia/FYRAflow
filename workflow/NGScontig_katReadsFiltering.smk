@@ -1,3 +1,11 @@
+##############################################################
+#  workflow: NGScontig_katReadsFiltering.smk
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Snakemake workflow for in FYRAflow-assembly submodule. 
+#               Map KAT-filtered NGS reads to NGS de novo assembly and filter out low-coverage contigs.
+##############################################################
+
 import csv
 import os
 import numpy as np
