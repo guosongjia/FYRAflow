@@ -1,3 +1,10 @@
+##############################################################
+#  script: assembly_assessment_summary.py
+#  author: Guo-Song Jia
+#  last edited: 2021.07.10
+#  description: Script for in FYRAflow workflow. Extract assembly Continuity informations from the QUAST "report.tsv" output.
+##############################################################
+
 import argparse
 import sys
 
@@ -58,4 +65,4 @@ with open(outputFile,'a+') as outputSummary:
                 filtered_contig_ng50 = lines.split("\t")[1].rstrip()
     outputSummary.write(str(assembly_name)+"\t" + 
     str(raw_contig_num)+"\t"+str(raw_contig_length)+"\t"+str(raw_contig_GC)+"\t"+str(raw_contig_n50)+"\t"+str(raw_contig_ng50)+"\t"+
-    str(filtered_contig_num)+"\t"+str(filtered_contig_length)+"\t"+str(filtered_contig_GC)+"\t"+str(filtered_contig_n50)+"\t"+str(filtered_contig_ng50))
+    str(filtered_contig_num)+"\t"+str(filtered_contig_length)+"\t"+str(filtered_contig_GC)+"\t"+str(filtered_contig_n50)+"\t"+str(filtered_contig_ng50)+"\n")
