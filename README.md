@@ -5,7 +5,8 @@
 FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. \
 Overview of the `FYRAflow variant` submodule:\
 <!-- <img scr="https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart_new.jpg" width=300> -->
-![image](https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart_new.jpg){:height="50%" width="50%"}
+<!-- ![image](https://github.com/guosongjia/Private_scripts/blob/master/FYRAflow_flowchart_new.jpg){:height="50%" width="50%"} -->
+<div align=center><img src="https://github.com/guosongjia/Private_scripts/blob/master/FYRA_flow_flow-chart_21.10.31.png"/></div>
 ## Full List of Tools used in this pipeline
 - `Fastp` 
 - `Kat`
