@@ -32,7 +32,7 @@ if mode == 'variant':
 elif mode == 'assembly':
     parser = argparse.ArgumentParser(description='fyraflow assemble mode options',usage='python main.py assemble -s <running step> -l <PATH to store log files>')
     parser.add_argument('assembly')
-    parser.add_argument("-s","--step",required=True,type=str,dest='step',help='Input the step the workflow: filtering, QUAST_assessment')
+    parser.add_argument("-s","--step",required=True,type=str,dest='step',help='Input the step the workflow: NGSfiltering, QUAST_assessment')
     parser.add_argument("-l","--log",required=True,type=str,dest='log',help='Input the path to save the running time log files.')
     args = parser.parse_args()
     if args.step:
@@ -137,7 +137,7 @@ if mode == 'assembly':
         working_dir = config["WORKPATH"]
     # Start FYRAflow on the project
     print("Start FYRAflow assembly sub-module on project: " + project)
-    if Runstep == "filtering":
+    if Runstep == "NGSfiltering":
         file_log_time = open(str(TimeLog) + "01_NGScontigFiltering_running_time.txt", "a+")
         file_log_time.write("\nProject name: " + project + "\n")
         file_log_time.write("Running step: NGS assembly filtering based on KAT filtered reads mapping." + "\n")
@@ -164,3 +164,16 @@ if mode == 'assembly':
         file_log_time.write("Time of running NGS assembly QUAST assessment: " + spend_time(start_time, end_time) + "\n")
         file_log_time.close()
         print("NGS assembly QUAST assessment is done!")
+    if Runstep == "TGScorrectness_assessment":
+        file_log_time = open(str(TimeLog) + "TGScontigBaseLevelAssessment_running_time.txt","a+")
+        file_log_time.write("\nProject name: " + project + "\n")
+        file_log_time.write("Running step: TGS assembly base level correctness assessment." + "\n")
+        file_log_time.write("Start time: " + time.ctime() + "\n")
+        print("Let's start TGS assembly base level correctness assessment!")
+        start_time = time.time()
+        os.system("snakemake -s workflow/TGScontig_assessment.smk --cores 48")
+        os.system("python scripts/run_deepvariant.py")
+        end_time = time.time()
+        file_log_time.write("Time of running TGS assembly base level correctness by NGS variant calling: " + spend_time(start_time, end_time) + "\n")
+        file_log_time.close()
+        print("TGS assembly base level correctness assessment is done!")
