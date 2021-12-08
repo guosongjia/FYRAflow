@@ -3,7 +3,7 @@
 ## Description
 ### Guo-Song Jia@Li-Lin Du's lab
 FYRAflow is a `snakemake` based workflow for fission yeast species re-sequencing data analysis. \
-Overview of the `FYRAflow`:
+- Overview of the `FYRAflow`:
 <div align=center><img src="https://github.com/guosongjia/Private_scripts/blob/master/FYRA_flow_flow-chart_21.10.31.png"/></div>
 
 ## Full List of Tools used in this pipeline
@@ -16,6 +16,9 @@ Overview of the `FYRAflow`:
 - `Vcftools`
 - `QUAST`
 - `Whatshap`
+- `Liftoff`
+- `maker` (Please install it manually)
+- `EVidence Modeler` (Please install it manually)
 - `R` (Dependency for some GATK steps)
 ## Quick Start
 ### Installation
