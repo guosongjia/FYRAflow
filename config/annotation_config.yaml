@@ -1,0 +1,21 @@
+# Please check the parameters, and adjust them according to your circumstance
+
+# ================== Parameters for fyraflow annotation sub-modules ==================
+
+## Project Name
+PROJECT: 181pombe
+
+## Fission yeast species of re-sequencing analysis
+SPECIES: S_pombe # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+
+## The installation path of EVidenceModeler
+EVMpath: /data/a/jiaguosong/softwares/EVidenceModeler-1.1.1
+
+## The working directory
+WORKPATH: /data/a/jiaguosong/softwares/FYRAflow/example
+
+## The path of genome assemblies
+AssemblyPATH: /data/a/jiaguosong/softwares/FYRAflow/example/genome
+
+## The list of assembly strain names
+SAMPLES: /data/a/jiaguosong/softwares/FYRAflow/example/list

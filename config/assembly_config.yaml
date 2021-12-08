@@ -3,19 +3,19 @@
 # ================== Parameters for fyraflow assembly sub-modules ==================
 
 ## Project Name
-PROJECT: test
+PROJECT: 5octo
 
 ## Fission yeast species of re-sequencing analysis
-SPECIES: S_versatilis # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+SPECIES: S_octosporus_ref # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
 
-## The path of raw NGS genome assemblies
-RAWassemblyPATH: /data/a/jiaguosong/softwares/FYRAflow/example
+## The path of raw genome assemblies
+RAWassemblyPATH: /data/b/jgs/NGS_assembly/Soctosporus
 
 ## The list of assembly strain names
-SAMPLES: /data/a/jiaguosong/softwares/FYRAflow/example/sample
+SAMPLES: /data/b/jgs/NGS_assembly/Soctosporus/list
 
 ## The path of KAT filtered NGS reads
-KATREADS: /data/a/jiaguosong/softwares/FYRAflow/example
+KATREADS: /data/b/jgs/variant_calling/Soctosporus_ref/02_kmerStatFiltering_kat/filtered_reads
 
 ## The working directory
-WORKPATH: /data/a/jiaguosong/softwares/FYRAflow/example
+WORKPATH: /data/b/jgs/NGS_assembly/Soctosporus

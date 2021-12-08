@@ -3,19 +3,19 @@
 # ================== Parameters for fyraflow variant sub-modules ==================
 
 ## Project Name
-PROJECT: 141_octosporus_joint
+PROJECT: 40japonicus
 
 ## Fission yeast species of re-sequencing analysis
-SPECIES: S_octosporus_ref # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
+SPECIES: S_japonicus # "S_pombe" or "S_octosporus_ref" or "S_octosporus_Tong" or "S_japonicus" or "S_versatilis" or "S_osmophilus" or "S_cryophilus"
 
 ## The path of fastq files
-READSPATH: /data/b/resource/Short_Reads/Soctosporus
+READSPATH: /data/b/resource/Short_Reads/Sjaponicus
 
 ## The working directory
-WORKPATH: /data/b/jgs/variant_calling/Soctosporus_ref
+WORKPATH: /data/b/jgs/variant_calling/Sjaponicus
 
 ## The sample list file
-SAMPLE: /data/b/jgs/variant_calling/Sversatilis_NGS/21.04_51versatilis.list
+SAMPLE: /data/b/jgs/variant_calling/Spombe/wild_strain_5_21.6.21.list
 
 ## The final output directory
-OUTPUTPATH: /data/b/jgs/variant_calling/Soctosporus_ref
+OUTPUTPATH: /data/b/jgs/variant_calling/Sjaponicus
