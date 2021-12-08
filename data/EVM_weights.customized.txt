@@ -1,0 +1,5 @@
+ABINITIO_PREDICTION	maker	1
+PROTEIN	protein2genome	1
+OTHER_PREDICTION	Liftoff	1
+
+
