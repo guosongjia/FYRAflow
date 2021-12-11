@@ -2,7 +2,7 @@ import argparse
 ##############################################################
 #  script: tidy_EVM_gff3.py
 #  author: Guo-Song Jia
-#  last edited: 2021.12.10
+#  last edited: 2021.12.11
 #  description: Script for in FYRAflow workflow. Tidy up the EVM output gff3 file and rename gene name.
 ##############################################################
 
@@ -16,7 +16,7 @@ parser.add_argument("-i", "--input", required=True, dest='inputGffFile',
 parser.add_argument("-t", "--genomeTag", required=True, dest='genomeTag',
                     help='Type the genomic Tag for gene renaming.')
 parser.add_argument("-o", "--output", required=True, dest='outputGffFile',
-                    help='Type the genomic Tag for gene renaming.')
+                    help='Output the gff3 file after tidying-up.')
 args = parser.parse_args()
 
 # Read the contig length of genome fasta
@@ -88,10 +88,12 @@ def cleanTrnaAnnotation(TrnaID,TrnaIndex,genomeTag,inputgff):
                 result.append("\t".join(i.split("\t")[0:8])+"\tID="+str(trnaNewName)+";Name="+str(trnaNewName))
     return result
 
+## Generate related data.
 ContigLengthDict = readInputFasta(args.genomeFasta)
 geneList = readGeneListFromGff(args.inputGffFile)
 trnaList = readTrnaListFromGff(args.inputGffFile)
 
+## Perform gff3 renaming and cleaning.
 with open(str(args.outputGffFile),'w') as outputFile:
     outputFile.write("##gff-version 3\n")
     for contig,length in ContigLengthDict.items():
